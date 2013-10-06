@@ -4634,8 +4634,14 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 				lang:		VMM.Language.lang,
 				uniqueid:	VMM.Util.unique_ID(6)
 			};
-		
-		if (d.match("div class='twitter'")) {
+            var info = window.CATX.Extension.Manager.getMediaType(d);
+		if (info.type != 'unknown') {
+                    media.type = info.type;
+                    trace(media.type);
+                    media.id = info.id;
+                    success = true;
+                }
+		else if (d.match("div class='twitter'")) {
 			media.type = "twitter-ready";
 		    media.id = d;
 		    success = true;
@@ -4743,12 +4749,7 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			trace( d.match(/src\=([^\s]*)\s/)[1].split(/"/)[1]);
 			media.id = d.match(/src\=([^\s]*)\s/)[1].split(/"/)[1];
 			success = true;
-		} else if ((info = window.CATX.Extension.Manager.getMediaType(d)).type != 'unknown') {
-                    media.type = info.type;
-                    trace(media.type);
-                    media.id = info.id;
-                    success = true;
-            }
+		} 
             else {
 			trace("unknown media");  
 			media.type = "unknown";

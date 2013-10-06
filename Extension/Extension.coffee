@@ -45,7 +45,7 @@ CATX.Extension = class ExtensionManager
         getMediaType: (media) ->
                 for type, ext of @extensions
                         if ext.supportMedia media
-                                return ext.getMediaType()
+                                return ext.getMediaType media
                 return type:
                                 "unknown"
                         id:
@@ -90,10 +90,30 @@ CATX.Extension = class ExtensionManager
                 
 # Base class for all Extensions
 # They are all ```static``` classes
-CATX.Extension.Manager.register CATX.Extension.Base = class Extension
+CATX.Extension.Base = class Extension
         # Type
         @type = "foo"
         @getMediaType: (media) -> {type: "foo", id: media}
         @supportMedia: (media) -> return true
         @getMedia: (m, asset) -> "<div class='plain-text-quote'>" + "-_-" + "</div>";
         @getThumbnail: (m, asset) -> "<div class='thumbnail thumb-plaintext' id='catx-extension-thumbnail'></div>"
+
+CATX.Extension.Manager.register class YoukuMedia extends CATX.Extension.Base
+        @getYoukuId: (url) ->
+                re = "\/\/v\.youku\.com\/v_show\/id_(.*?)\.html"
+                p = new RegExp(re, ["i"])
+                m = p.exec(url)
+                return m?[1] ? ""
+                
+        @type = "youku"
+        @getMediaType: (media) ->
+                youkuId = @getYoukuId media
+                type = if youkuId != "" then @type else 'unknown'
+                return {type: type, id: youkuId}
+
+        @supportMedia: (media) -> return (@getYoukuId media) != ""
+        @getMedia: (m, asset) ->
+                "<iframe height=370 width=580 src='http://player.youku.com/embed/#{m.id}' frameborder=0 allowfullscreen></iframe>"
+        @getThumbnail: (m, asset) -> "<div class='thumbnail thumb-plaintext' id='catx-extension-thumbnail'></div>"
+
+        
