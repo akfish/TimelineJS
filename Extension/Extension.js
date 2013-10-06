@@ -13,31 +13,34 @@
   CATX.Extension = ExtensionManager = (function() {
     ExtensionManager.Manager = new ExtensionManager;
 
-    ExtensionManager.prototype.hasThumbnail = function(type) {
-      __("Check thumbnail for " + type);
-      return type === "foo";
-    };
-
-    ExtensionManager.prototype.getThumbnail = function(asset) {
+    ExtensionManager.prototype.getThumbnail = function(m, asset) {
       __("Get thumbnail for:");
+      __(m);
       __(asset);
       return "<div class='thumbnail thumb-plaintext' id='catx-extension-thumbnail'></div>";
     };
 
-    ExtensionManager.prototype.supportMediaType = function(asset) {
-      __("Check type for " + asset.media);
-      __(asset);
+    ExtensionManager.prototype.supportMedia = function(media) {
+      __("Check meida for " + media);
       return true;
     };
 
-    ExtensionManager.prototype.getMediaType = function(asset) {
+    ExtensionManager.prototype.supportMediaType = function(type) {
+      __("Check type for " + type);
+      return true;
+    };
+
+    ExtensionManager.prototype.getMediaType = function(media) {
       return {
         type: "foo",
-        id: asset.media
+        id: media
       };
     };
 
-    ExtensionManager.prototype.getMedia = function(asset) {
+    ExtensionManager.prototype.getMedia = function(m, asset) {
+      __("Get media for: ");
+      __(m);
+      __(asset);
       return "<div class='plain-text-quote'>" + "-_-" + "</div>";
     };
 

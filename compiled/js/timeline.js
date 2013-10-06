@@ -4468,9 +4468,9 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
 				} else if (m.type	==	"website") {
 					mediaElem		=	"<div class='thumbnail thumb-website' id='" + uid + "_thumb'></div>";
 					return mediaElem;
-				} else if (window.CATX.Extension.Manager.hasThumbnail(m.type))
+				} else if (window.CATX.Extension.Manager.supportMediaType(m.type))
                                     {
-                                        mediaElem = window.CATX.Extension.Manager.getThumbnail(m);
+                                        mediaElem = window.CATX.Extension.Manager.getThumbnail(m, data);
                                         return mediaElem;
                                     }
                             else {
@@ -4588,7 +4588,7 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
 					
 			// NO MATCH
 				} else if (window.CATX.Extension.Manager.supportMediaType(m.type)) {
-                                    mediaElem = window.CATX.Extension.Manager.getMedia(m);
+                                    mediaElem = window.CATX.Extension.Manager.getMedia(m, data);
                                 } else {
 					trace("NO KNOWN MEDIA TYPE FOUND");
 					trace(m.type);
@@ -4743,8 +4743,8 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			trace( d.match(/src\=([^\s]*)\s/)[1].split(/"/)[1]);
 			media.id = d.match(/src\=([^\s]*)\s/)[1].split(/"/)[1];
 			success = true;
-		} else if (window.CATX.Extension.Manager.supportMediaType(media)) {
-                    var info = window.CATX.Extension.Manager.getMediaType(media);
+		} else if (window.CATX.Extension.Manager.supportMedia(d)) {
+                    var info = window.CATX.Extension.Manager.getMediaType(d);
                     media.type = info.type;
                     trace(media.type);
                     media.id = info.id;
