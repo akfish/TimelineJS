@@ -4,3 +4,6 @@
 [submodule "source/less/Core"]
 	path = source/less/Core
 	url = https://zachwise@github.com/VeriteCo/StoryJS-Core-CSS.git
+[submodule "Extension/pack"]
+	path = Extension/pack
+	url = git@github.com:akfish/timeline-js-ext-pack.git
