@@ -9,7 +9,7 @@ __ = console.log.bind(console)
 CATX.Extension = class ExtensionManager
         @Manager = new ExtensionManager
 
-        # Get html for rendering media if it is supported by any extensions
+        # Get html for rendering media thumbnail if it is supported by any extensions
         # @m
         # - type def from VMM.MediaType:
         # 		media	= {
@@ -72,6 +72,16 @@ CATX.Extension = class ExtensionManager
                 __ asset
                 "<div class='plain-text-quote'>" + "-_-" + "</div>";
 
-        constructor: () ->
+        register: (cls) ->
                 
 
+        constructor: () ->
+                
+# Base class for all Extensions
+# They are all ```static``` classes
+CATX.Extension.Base = class Extension
+        # Type
+        @type = "ext"
+        @supportMedia: (media) -> return false
+        @getMedia: (m, asset) ->
+        @getThumbnail: (m, asset) ->
