@@ -29,21 +29,15 @@ CATX.Extension = class ExtensionManager
                 __ asset
                 "<div class='thumbnail thumb-plaintext' id='catx-extension-thumbnail'></div>"
 
-        # Check if the media is supported by any extensions
-        # @media
-        # - The url of media. Corresponds to asset.media in JSON
-        supportMedia: (media) ->
-                __ "Check meida for #{media}"
-                return true
-
         # Check if the type is supported by any extensions
         # @type
-        # - The type of media. Should be 'unknown' or extension supported type
+        # - The type of media. 
         supportMediaType: (type) ->
                 __ "Check type for #{type}"
                 return true
 
         # Get the media type if it is supported by any extensions
+        # Otherwise the type field is 'unknown'
         # @media
         # - The url of media. Corresponds to asset.media in JSON        
         getMediaType: (media) ->

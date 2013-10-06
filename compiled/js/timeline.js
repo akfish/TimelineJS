@@ -4743,8 +4743,7 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			trace( d.match(/src\=([^\s]*)\s/)[1].split(/"/)[1]);
 			media.id = d.match(/src\=([^\s]*)\s/)[1].split(/"/)[1];
 			success = true;
-		} else if (window.CATX.Extension.Manager.supportMedia(d)) {
-                    var info = window.CATX.Extension.Manager.getMediaType(d);
+		} else if ((info = window.CATX.Extension.Manager.getMediaType(d)).type != 'unknown') {
                     media.type = info.type;
                     trace(media.type);
                     media.id = info.id;

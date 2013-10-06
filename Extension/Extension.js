@@ -20,11 +20,6 @@
       return "<div class='thumbnail thumb-plaintext' id='catx-extension-thumbnail'></div>";
     };
 
-    ExtensionManager.prototype.supportMedia = function(media) {
-      __("Check meida for " + media);
-      return true;
-    };
-
     ExtensionManager.prototype.supportMediaType = function(type) {
       __("Check type for " + type);
       return true;
