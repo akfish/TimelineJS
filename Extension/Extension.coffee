@@ -4,6 +4,7 @@ window.CATX ?= {}
 CATX = window.CATX
 
 __ = console.log.bind(console)
+T_T = console.error.bind(console)
 
 # Extension Manager
 CATX.Extension = class ExtensionManager
@@ -27,24 +28,28 @@ CATX.Extension = class ExtensionManager
                 __ "Get thumbnail for:"
                 __ m
                 __ asset
-                "<div class='thumbnail thumb-plaintext' id='catx-extension-thumbnail'></div>"
+                if @supportMediaType(m.type)
+                        return @extensions[m.type].getThumbnail m, asset
 
         # Check if the type is supported by any extensions
         # @type
         # - The type of media. 
         supportMediaType: (type) ->
-                __ "Check type for #{type}"
-                return true
+                __ "Check type for extension #{type}"
+                return @extensions[type]?
 
         # Get the media type if it is supported by any extensions
         # Otherwise the type field is 'unknown'
         # @media
         # - The url of media. Corresponds to asset.media in JSON        
         getMediaType: (media) ->
-                type:
-                        "foo"
-                id:
-                        media
+                for type, ext of @extensions
+                        if ext.supportMedia media
+                                return ext.getMediaType()
+                return type:
+                                "unknown"
+                        id:
+                                media
 
         # Get html for rendering media if it is supported by any extensions
         # @m
@@ -64,18 +69,31 @@ CATX.Extension = class ExtensionManager
                 __ "Get media for: "
                 __ m
                 __ asset
-                "<div class='plain-text-quote'>" + "-_-" + "</div>";
+                if @supportMediaType(m.type)
+                        return @extensions[m.type].getMedia m, asset
 
-        register: (cls) ->
-                
+        register: (ext) ->
+                type = ext.type
+                if not type?
+                        T_T "Try to register an extension without type:"
+                        T_T ext
+                        return
+                if type in @extensions
+                        T_T "Extension type #{type} already registered"
+                        return
+                @extensions[type] = ext
+                __ "Extension type #{type} registered:"
+                __ ext
 
         constructor: () ->
+                @extensions = {}
                 
 # Base class for all Extensions
 # They are all ```static``` classes
-CATX.Extension.Base = class Extension
+CATX.Extension.Manager.register CATX.Extension.Base = class Extension
         # Type
-        @type = "ext"
-        @supportMedia: (media) -> return false
-        @getMedia: (m, asset) ->
-        @getThumbnail: (m, asset) ->
+        @type = "foo"
+        @getMediaType: (media) -> {type: "foo", id: media}
+        @supportMedia: (media) -> return true
+        @getMedia: (m, asset) -> "<div class='plain-text-quote'>" + "-_-" + "</div>";
+        @getThumbnail: (m, asset) -> "<div class='thumbnail thumb-plaintext' id='catx-extension-thumbnail'></div>"
